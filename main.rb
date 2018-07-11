@@ -1,5 +1,5 @@
-require_relative './lib/BearLibTerminal'
-require_relative 'config'
+require './lib/BearLibTerminal'
+require './config'
 
 class Main
   def perform
