@@ -1,5 +1,5 @@
 class Config
   TITLE = 'Hello'
-  WINDOW_WIDGHT = 800
-  WINDOW_HEIGHT = 600
+  WINDOW_WIDTH = 60
+  WINDOW_HEIGHT = 30
 end
