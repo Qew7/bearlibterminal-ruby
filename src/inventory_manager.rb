@@ -1,14 +1,17 @@
 class InventoryManager
-  attr_reader :entity
+  attr_reader :entity, :game_state
 
-  def initialize entity
+  def initialize entity, game_state
     @entity = entity
+    @game_state = game_state
+    game_state.transition_into(:inventory_opened)
   end
 
   def manage
     begin
       show_inventory
     end while Terminal.read != Terminal::TK_ESCAPE
+    game_state.transition_into(:playing)
   end
 
   private

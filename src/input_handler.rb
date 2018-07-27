@@ -1,8 +1,8 @@
 class InputHandler
   attr_reader :game
 
-  def initialize(gamestate)
-    @game = gamestate
+  def initialize(game)
+    @game = game
   end
 
   def handle(input)
@@ -13,7 +13,7 @@ class InputHandler
       move(input)
     end
     if inventory_input?(input)
-      InventoryManager.new(player).manage
+      InventoryManager.new(player, game_state).manage
     end
   end
 
@@ -28,7 +28,7 @@ class InputHandler
   end
 
   def inventory_input?(input)
-    input == Terminal::TK_I    
+    input == Terminal::TK_I
   end
 
   def move(input)
@@ -48,5 +48,9 @@ class InputHandler
 
   def player
     game.player
+  end
+
+  def game_state
+    game.game_state
   end
 end

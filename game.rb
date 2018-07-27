@@ -3,17 +3,17 @@ require './config'
 Dir['./src/*'].each {|file| require file }
 
 class Game
-  attr_accessor :input_handler, :player
+  attr_accessor :input_handler, :player, :game_state
 
   def start
-    start_game
     setup
+    start_game
     mainloop
     finish
   end
 
   def end_game
-    @game_in_progress = false
+    @game_state.end_game
   end
 
   private
@@ -24,13 +24,18 @@ class Game
     Terminal.set("font: assets/Fix15Mono-Bold.ttf, size=14x14")
     Terminal.set("window.size = #{Config::WINDOW_WIDTH}x#{Config::WINDOW_HEIGHT}")
     Terminal.refresh
-    @input_handler = InputHandler.new self
+    @game_state = GameState.new
+    @input_handler = InputHandler.new(self)
     @player = Player.new
+  end
+
+  def start_game
+    @game_state.transition_into(:playing)
   end
 
   def mainloop
     while game_in_progress?
-      @input_handler.handle Terminal.read
+      @input_handler.handle(Terminal.read)
       Terminal.refresh
     end
   end
@@ -40,10 +45,6 @@ class Game
   end
 
   def game_in_progress?
-    @game_in_progress
-  end
-
-  def start_game
-    @game_in_progress = true
+    @game_state.in_progress?
   end
 end
